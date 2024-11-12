@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+ <header>
+    <h1>Swimwear Shop</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html?category=mens">Men's</a></li>
+            <li><a href="shop.html?category=womens">Women's</a></li>
+            <li><a href="shop.html?category=kids">Kids'</a></li>
+            <li><a href="shop.html?category=accessories">Accessories</a></li>
+            <li id="cart-container">
+                <a href="cart.html">
+                    <span id="cart-icon">
+                        🛒
+                    </span>
+                    <span id="cart-count">0</span> <!-- This will dynamically update -->
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Cart Page Content -->
+<div class="cart-container">
+    <h1>Your Cart</h1>
+    <div id="cart-items">
+        <!-- Cart items will be dynamically injected here -->
+    </div>
+    <div id="cart-total">
+        <p>Total: $<span id="total-price">0.00</span></p>
+        <button id="checkout-btn">Proceed to Checkout</button>
+    </div>
+</div>
+<script>
+    // Function to update the cart count in the navigation bar
+function updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = cartItems.length;
+    document.getElementById('cart-count').innerText = cartCount;
+}
+
+// Function to add product to cart
+function addToCart(product) {
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    cartItems.push(product);
+    localStorage.setItem('cart', JSON.stringify(cartItems)); // Store cart data in localStorage
+    updateCartCount(); // Update the cart count
+}
+
+// Display the cart items on the cart page
+function displayCartItems() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalPriceElement = document.getElementById('total-price');
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    let totalPrice = 0;
+
+    cartItemsContainer.innerHTML = ''; // Clear existing items
+
+    if (cartItems.length === 0) {
+        cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+        cartItems.forEach(item => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="info">
+                    <h3>${item.name}</h3>
+                    <p class="price">${item.price}</p>
+                </div>
+                <button class="remove-btn" data-name="${item.name}">Remove</button>
+            `;
+            cartItemsContainer.appendChild(cartItemElement);
+            
+            // Add to total price
+            totalPrice += parseFloat(item.price.replace('$', ''));
+        });
+    }
+
+    totalPriceElement.innerText = totalPrice.toFixed(2); // Set total price
+}
+
+// Remove item from cart
+function removeItemFromCart(itemName) {
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    cartItems = cartItems.filter(item => item.name !== itemName); // Filter out the item
+    localStorage.setItem('cart', JSON.stringify(cartItems)); // Update localStorage
+    displayCartItems(); // Re-display cart items
+    updateCartCount(); // Update cart count
+}
+
+// Event listener for remove buttons
+document.getElementById('cart-items').addEventListener('click', (event) => {
+    if (event.target.classList.contains('remove-btn')) {
+        const itemName = event.target.getAttribute('data-name');
+        removeItemFromCart(itemName);
+    }
+});
+
+// Checkout functionality (optional, can be customized to lead to payment process)
+document.getElementById('checkout-btn').addEventListener('click', () => {
+    alert('Proceeding to checkout...');
+    // You can redirect to a checkout page or implement further logic here
+});
+
+// Initialize by displaying cart items and updating cart count
+displayCartItems();
+updateCartCount();
+
+</script>
+
+<script src="cart.js"></script>
+</body>
+</html>

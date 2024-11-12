@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Swimwear Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Swimwear Shop</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html?category=mens">Men's</a></li>
+                <li><a href="shop.html?category=womens">Women's</a></li>
+                <li><a href="shop.html?category=kids">Kids'</a></li>
+                <li><a href="shop.html?category=accessories">Accessories</a></li>
+                <li id="cart-container">
+                    <a href="cart.html">
+                        <span id="cart-icon">
+                            🛒
+                        </span>
+                        <span id="cart-count">0</span> <!-- This will dynamically update -->
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Shop Section -->
+    <section id="shop-section">
+        <h2 id="category-title">Shop</h2>
+        <div id="products-container" class="products-container">
+            <!-- Products will be displayed here -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Swimwear Shop. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts/scripts.js"></script>
+</body>
+</html>
